@@ -1,32 +1,57 @@
 import streamlit as st
-import pandas as pd
 from deep_translator import GoogleTranslator
-import sklearn
-import fastapi
+import pandas as pd
 
-# 1. Setup the Page
-st.set_page_config(page_title="Civix-Router Test", page_icon="🏛️")
-st.title("🏛️ Civix-Router: Environment Test")
-st.write("If you can see this in your browser, your Streamlit frontend is working perfectly!")
+# 1. The UI Setup
+st.set_page_config(page_title="Civix-Router", page_icon="🏛️", layout="wide")
+st.title("🏛️ Civix-Router: Smart Governance")
 
-# 2. Test the Translator Library
-st.subheader("1. Translation API Test")
-test_text = st.text_input("Enter Tamil text here to test the translator:", "வணக்கம், இது ஒரு சோதனை")
+# Create Tabs for different users
+tab1, tab2 = st.tabs(["📱 Citizen Portal", "📊 Official Dashboard"])
 
-if st.button("Translate"):
-    try:
-        # Translating from Tamil ('ta') to English ('en')
-        translated = GoogleTranslator(source='ta', target='en').translate(test_text)
-        st.success(f"Translation successful: **{translated}**")
-    except Exception as e:
-        st.error(f"Translation failed. Check your internet or library: {e}")
+with tab1:
+    st.subheader("Submit Your Complaint")
+    user_input = st.text_area("Enter your complaint (in Tamil):", placeholder="உதாரணம்: தெரு விளக்கு எரியவில்லை...")
 
-# 3. Verify ML and Backend Libraries
-st.subheader("2. Backend Library Check")
-st.info("Checking if your core AI and API libraries are installed correctly...")
+    if st.button("Submit Complaint"):
+        if user_input:
+            with st.spinner("Processing & Translating..."):
+                # Translation Engine
+                translated_text = GoogleTranslator(source='ta', target='en').translate(user_input)
+                
+                # Smart Routing Logic
+                department = "Unassigned"
+                if any(word in translated_text.lower() for word in ["water", "pipe", "leak", "drinking"]):
+                    department = "💧 Water Supply Dept"
+                elif any(word in translated_text.lower() for word in ["light", "electricity", "power", "wire"]):
+                    department = "⚡ Electricity Board"
+                elif any(word in translated_text.lower() for word in ["road", "pothole", "street", "damage"]):
+                    department = "🛣️ Public Works Dept"
+                else:
+                    department = "🏢 General Administration"
 
-st.write(f"✅ Pandas version: `{pd.__version__}`")
-st.write(f"✅ Scikit-Learn version: `{sklearn.__version__}`")
-st.write(f"✅ FastAPI version: `{fastapi.__version__}`")
+                st.success("Complaint Submitted Successfully!")
+                st.info(f"**Translated to:** {translated_text}")
+                st.warning(f"**Routed automatically to:** {department}")
+        else:
+            st.error("Please enter a complaint first.")
 
-st.success("You are ready to build on April 3rd!")
+with tab2:
+    st.subheader("Live City Analytics")
+    st.write("Real-time overview of civic issues across departments.")
+    
+    # Mock Data for the prototype pitch
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Total Complaints Today", "142", "+12%")
+    col2.metric("Resolved Issues", "89", "+5%")
+    col3.metric("Pending Action", "53", "-2%")
+    
+    st.divider()
+    
+    # A beautiful chart to impress the judges
+    chart_data = pd.DataFrame({
+        "Department": ["Water Supply", "Electricity", "Public Works", "Sanitation", "General"],
+        "Active Complaints": [45, 20, 35, 15, 27]
+    })
+    
+    st.bar_chart(chart_data, x="Department", y="Active Complaints", color="#ff4b4b")
