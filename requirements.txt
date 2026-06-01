@@ -3,3 +3,5 @@ deep-translator
 pandas
 transformers
 torch
+SpeechRecognition
+gTTS

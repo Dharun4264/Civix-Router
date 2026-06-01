@@ -1,19 +1,50 @@
-# 🏛️ Civix-Router: Smart Governance AI
+# 🏛️ Civix-Router: Smart Governance Assistant
 
-A working prototype built for the April 3rd Hackathon to bridge the language gap in local governance using Artificial Intelligence.
+A Streamlit app for civic complaint intake and routing, redesigned for accessibility and low-literacy usability.
 
 ## 🚀 The Core Problem
-Citizens often submit civic complaints in their native regional languages (like Tamil), but government databases and routing systems operate in English. This creates massive delays and misallocated resources. 
+Citizens often report civic issues in local languages, while administrative systems and internal workflows are mostly English-first. This slows resolution and can route complaints to the wrong teams.
 
-## 💡 Our Solution
-Civix-Router provides a seamless, dual-portal interface:
-1. **Citizen Portal:** Users submit their issues in native Tamil.
-2. **Real-Time Translation:** The system instantly translates the context to English.
-3. **Zero-Shot AI Classification:** Instead of relying on basic keyword matching, we utilize a highly advanced NLP model (`facebook/bart-large-mnli`) to actually *understand* the complaint and automatically route it to the correct department (Water, Electricity, Public Works, etc.) with a calculated confidence score.
-4. **Official Dashboard:** Government workers view an analytics dashboard of categorized, translated issues ready for immediate action.
+## 💡 Current Solution
+Civix-Router now provides a voice-first and visually guided dual portal:
+1. **Citizen Portal (Voice-First Tamil):**
+   - Tamil instruction audio playback
+   - Microphone-based complaint capture (`st.audio_input`)
+   - Text fallback for microphone/network edge cases
+   - Clear step cards and large icon-led actions for low-literacy users
+2. **Translation + Routing Workflow:**
+   - Tamil complaint translated to English via `deep-translator`
+   - Complaint routed to department using transparent keyword scoring
+   - Progress and confidence feedback shown to the user
+3. **Official Dashboard (Interactive):**
+   - Department, status, and urgency filters
+   - Dynamic KPI cards and charts
+   - Triage queue cards for quick prioritization
+
+## 🎨 UX and Accessibility Principles
+- Mostly light interface with high readability and clear spacing
+- Dark-accent hero sections and red highlight stripes for visual hierarchy
+- Strong contrast between text and background for better visibility
+- Functional imagery for context (citizen reporting and operations workflow)
+- Error handling with retry-friendly guidance
 
 ## 🛠️ Tech Stack
-* **Frontend:** Streamlit
-* **AI/ML:** Hugging Face Transformers (PyTorch), Zero-Shot Classification
-* **Translation API:** Deep-Translator
-* **Data Processing:** Pandas
+- **Frontend:** Streamlit
+- **Translation:** Deep-Translator (`GoogleTranslator`)
+- **Voice Prompt Audio:** gTTS
+- **Speech-to-Text:** SpeechRecognition (Google recognizer with `ta-IN`)
+- **Data and Dashboard:** Pandas
+
+## ▶️ Run Locally
+1. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. Start the app:
+   ```bash
+   streamlit run app.py
+   ```
+
+## 📌 Notes
+- Speech recognition and translation require network access.
+- The current dashboard data is mocked for workflow demonstration and UI testing.

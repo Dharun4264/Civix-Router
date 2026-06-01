@@ -1,0 +1,144 @@
+/* Mobile-first overrides — tablet 768px, desktop 1024px */
+
+@media (max-width: 1023px) {
+  .process-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --header-height: 56px;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .site-nav {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    background: rgba(13, 13, 13, 0.98);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 1rem 0;
+    transform: translateY(-120%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform var(--transition), opacity var(--transition), visibility var(--transition);
+  }
+
+  .site-header.nav-open .site-nav {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .site-nav li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .site-nav a {
+    display: block;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+  }
+
+  .section {
+    padding: 3.5rem 0;
+  }
+
+  .hero {
+    min-height: auto;
+    padding-bottom: 2rem;
+  }
+
+  .hero-portals {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .portal-divider {
+    transform: rotate(90deg);
+    padding: 0.25rem 0;
+  }
+
+  .comparison {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-arrow {
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+  }
+
+  .process-steps,
+  .features-grid,
+  .tech-grid,
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  .github-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .github-actions {
+    width: 100%;
+  }
+
+  .github-actions .btn {
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .about-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-cta .btn {
+    width: 100%;
+  }
+
+  .routing-table th,
+  .routing-table td {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-portals {
+    max-width: 90%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section h2 {
+    margin-bottom: 1rem;
+  }
+}
