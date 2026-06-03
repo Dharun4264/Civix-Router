@@ -1,153 +1,149 @@
-(function () {
-  "use strict";
+// REPLACE THIS LINK WITH YOUR DEPLOYED GOOGLE SCRIPT URL!
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzSCM3tD8DcxdCyfNNDRA_NzcVemmNDxw6Z_lM9LVEUISNJmqRLu44p-K3PYWeOjdYf/exec";
 
-  const TYPING_TEXT = "உதாரணம்: தெரு விளக்கு எரியவில்லை...";
-  const TYPING_SPEED = 80;
-  const TYPING_PAUSE = 2500;
+// Animated Counters
+const counters = document.querySelectorAll('.counter');
+const speed = 200; 
 
-  function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener("click", (e) => {
-        const id = anchor.getAttribute("href");
-        if (!id || id === "#") return;
-        const target = document.querySelector(id);
-        if (!target) return;
-        e.preventDefault();
-        const header = document.querySelector(".site-header");
-        const offset = header ? header.offsetHeight : 0;
-        const top = target.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top, behavior: "smooth" });
-        closeMobileNav();
-      });
+const animateCounters = () => {
+    counters.forEach(counter => {
+        const updateCount = () => {
+            const target = +counter.getAttribute('data-target');
+            const count = +counter.innerText;
+            const inc = target / speed;
+
+            if (count < target) {
+                counter.innerText = Math.ceil(count + inc);
+                setTimeout(updateCount, 15);
+            } else {
+                counter.innerText = target;
+            }
+        };
+        updateCount();
     });
-  }
+};
 
-  function initMobileNav() {
-    const header = document.querySelector(".site-header");
-    const toggle = document.querySelector(".nav-toggle");
-    const nav = document.querySelector("#site-nav");
-    if (!header || !toggle || !nav) return;
+// Trigger counters on scroll
+const observer = new IntersectionObserver((entries) => {
+    if(entries[0].isIntersecting) {
+        animateCounters();
+        observer.disconnect();
+    }
+});
+if(counters.length > 0) observer.observe(document.querySelector('.metrics-grid'));
 
-    toggle.addEventListener("click", () => {
-      const open = header.classList.toggle("nav-open");
-      toggle.setAttribute("aria-expanded", String(open));
-    });
+// Voice Recognition Logic (Web Speech API)
+function startVoiceRecognition() {
+    const micBtn = document.getElementById('micBtn');
+    const inputField = document.getElementById('complaintInput');
 
-    nav.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", closeMobileNav);
-    });
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (!SpeechRecognition) {
+        alert("Sorry, your browser doesn't support voice recognition. Please use Chrome.");
+        return;
+    }
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeMobileNav();
-    });
-  }
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'ta-IN'; 
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
 
-  function closeMobileNav() {
-    const header = document.querySelector(".site-header");
-    const toggle = document.querySelector(".nav-toggle");
-    if (header) header.classList.remove("nav-open");
-    if (toggle) toggle.setAttribute("aria-expanded", "false");
-  }
-
-  function animateCounters() {
-    const counters = document.querySelectorAll(".stat-value[data-target]");
-    if (!counters.length) return;
-
-    const duration = 2000;
-
-    const runCounter = (el) => {
-      const target = parseInt(el.getAttribute("data-target"), 10);
-      const suffix = el.getAttribute("data-suffix") || "";
-      const start = performance.now();
-
-      function tick(now) {
-        const elapsed = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const value = Math.floor(eased * target);
-        el.textContent = value + suffix;
-        if (progress < 1) requestAnimationFrame(tick);
-        else el.textContent = target + suffix;
-      }
-
-      requestAnimationFrame(tick);
+    recognition.onstart = function() {
+        micBtn.style.background = 'rgba(255, 149, 0, 0.2)'; 
+        inputField.placeholder = "Listening / கேட்கிறது...";
     };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          runCounter(entry.target);
-          observer.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.4 }
-    );
+    recognition.onresult = function(event) {
+        const speechResult = event.results[0][0].transcript;
+        inputField.value = speechResult;
+        micBtn.style.background = 'var(--bg-card)'; 
+    };
 
-    counters.forEach((c) => observer.observe(c));
-  }
+    recognition.onerror = function(event) {
+        console.error("Speech recognition error", event.error);
+        micBtn.style.background = 'var(--bg-card)';
+        inputField.placeholder = "உதாரணம்: தெரு விளக்கு எரியவில்லை...";
+    };
 
-  function initTypingAnimation() {
-    const el = document.getElementById("typing-text");
-    if (!el) return;
+    recognition.onend = function() {
+        micBtn.style.background = 'var(--bg-card)';
+    };
 
-    let index = 0;
-    let deleting = false;
+    recognition.start();
+}
 
-    function type() {
-      if (!deleting) {
-        el.textContent = TYPING_TEXT.slice(0, index + 1);
-        index++;
-        if (index >= TYPING_TEXT.length) {
-          setTimeout(() => {
-            deleting = true;
-            type();
-          }, TYPING_PAUSE);
-          return;
-        }
-        setTimeout(type, TYPING_SPEED);
-      } else {
-        el.textContent = TYPING_TEXT.slice(0, index - 1);
-        index--;
-        if (index <= 0) {
-          deleting = false;
-          index = 0;
-          setTimeout(type, 400);
-          return;
-        }
-        setTimeout(type, TYPING_SPEED / 2);
-      }
+// Analytics, Routing & Database Submit
+function analyzeAndSubmit() {
+    const nameInput = document.getElementById('citizenName').value;
+    const phoneInput = document.getElementById('citizenPhone').value;
+    const complaintInput = document.getElementById('complaintInput').value;
+    const inputLower = complaintInput.toLowerCase();
+    const btn = document.getElementById('submitBtn');
+    
+    // Check if name or complaint are empty
+    if(!complaintInput.trim() || !nameInput.trim()) {
+        alert("Please enter your name and a complaint to submit.");
+        return;
     }
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.textContent = TYPING_TEXT;
-      return;
+    // STRICT 10-DIGIT PHONE VALIDATION
+    const phoneRegex = /^[0-9]{10}$/;
+    if(!phoneRegex.test(phoneInput)) {
+        alert("Please enter exactly 10 numbers for your phone number.");
+        return;
     }
 
-    type();
-  }
 
-  function initHeaderScroll() {
-    const header = document.querySelector(".site-header");
-    if (!header) return;
+    // UI Loading State
+    btn.innerText = "Routing & Saving...";
+    btn.style.opacity = "0.7";
 
-    window.addEventListener(
-      "scroll",
-      () => {
-        header.style.background =
-          window.scrollY > 40
-            ? "rgba(13, 13, 13, 0.95)"
-            : "rgba(13, 13, 13, 0.85)";
-      },
-      { passive: true }
-    );
-  }
+    let translation = "Street light is not working / Power issue detected";
+    let department = "General Administration";
 
-  document.addEventListener("DOMContentLoaded", () => {
-    initSmoothScroll();
-    initMobileNav();
-    initTypingAnimation();
-    initHeaderScroll();
-    animateCounters();
-  });
-})();
+    // Routing Logic matching project spec
+    if (inputLower.includes('water') || inputLower.includes('pipe') || inputLower.includes('leak') || inputLower.includes('drinking') || inputLower.includes('தண்ணீர்') || inputLower.includes('குழாய்')) {
+        translation = "Water pipe leak / Drinking water supply disruption reported";
+        department = "Water Supply Department";
+    } else if (inputLower.includes('light') || inputLower.includes('electricity') || inputLower.includes('power') || inputLower.includes('wire') || inputLower.includes('விளக்கு') || inputLower.includes('மின்சாரம்')) {
+        translation = "Street light failure / Electrical power wire hazard";
+        department = "Electricity Board";
+    } else if (inputLower.includes('road') || inputLower.includes('pothole') || inputLower.includes('street') || inputLower.includes('damage') || inputLower.includes('சாலை') || inputLower.includes('பள்ளம்')) {
+        translation = "Road damage and potholes causing traffic risk";
+        department = "Public Works Department";
+    } else {
+        translation = complaintInput; 
+    }
+
+    // Package data for Google Sheets
+    const formData = new URLSearchParams();
+    formData.append("name", nameInput);
+    formData.append("phone", phoneInput);
+    formData.append("complaint", complaintInput);
+    formData.append("translation", translation);
+    formData.append("department", department);
+
+    // Send to Google Sheets API
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors' 
+    })
+    .then(() => {
+        // Show success UI
+        document.getElementById('demoResult').style.display = 'block';
+        document.getElementById('translatedText').innerText = `"${translation}"`;
+        document.getElementById('routedDept').innerText = `⚙️ ${department} (Saved to DB ✅)`;
+        
+        // Reset button
+        btn.innerText = "Submit to Database";
+        btn.style.opacity = "1";
+    })
+    .catch(error => {
+        console.error('Error!', error.message);
+        btn.innerText = "Submit to Database";
+        btn.style.opacity = "1";
+        alert("Failed to save to database. Please check console.");
+    });
+}

@@ -1,331 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Civix-Router — Smart Governance AI bridging Tamil civic complaints to English government systems with real-time translation and zero-shot classification.">
-  <meta name="author" content="K Dharun">
-  <meta name="keywords" content="Civix-Router, Tamil Nadu, civic governance, AI translation, smart city">
-  <meta property="og:title" content="Civix-Router | Smart Governance AI">
-  <meta property="og:description" content="Bridging language barriers in civic governance for Tamil Nadu.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://github.com/Dharun4264/Civix-Router">
-  <title>Civix-Router | Smart Governance AI</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/responsive.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
-  <script src="js/chart.js" defer></script>
-  <script src="js/main.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civix-Router | Smart Governance AI</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to main content</a>
-
-  <header class="site-header" role="banner">
-    <div class="container header-inner">
-      <a href="#" class="logo" aria-label="Civix-Router home">Civix-Router</a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-      </button>
-      <nav id="site-nav" class="site-nav" role="navigation" aria-label="Primary">
-        <ul>
-          <li><a href="#problem">Problem</a></li>
-          <li><a href="#solution">Solution</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#routing">Routing</a></li>
-          <li><a href="#analytics">Analytics</a></li>
-          <li><a href="#github">GitHub</a></li>
-          <li><a href="#about">About</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main">
-    <section id="hero" class="hero" aria-labelledby="hero-title">
-      <div class="hero-gradient" aria-hidden="true"></div>
-      <div class="container hero-content">
-        <p class="hero-badge">April 3rd Hackathon Prototype</p>
-        <h1 id="hero-title">Civix-Router</h1>
-        <p class="hero-tagline">Bridging Language Barriers in Civic Governance</p>
-        <p class="hero-subtitle">Smart Governance AI for Tamil Nadu</p>
-        <p class="hero-typing" aria-live="polite"><span id="typing-text"></span><span class="typing-cursor" aria-hidden="true">|</span></p>
-        <div class="hero-cta">
-          <a href="#solution" class="btn btn-primary">View Live Demo</a>
-          <a href="https://github.com/Dharun4264/Civix-Router" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+    <nav class="navbar">
+        <div class="logo">Civix-Router</div>
+        <div class="nav-links">
+            <a href="#workflow">Workflow</a>
+            <a href="#routing">Routing</a>
+            <a href="#analytics">Analytics</a>
+            <a href="https://github.com/Dharun4264/Civix-Router" class="btn-github">GitHub</a>
         </div>
-        <div class="hero-portals" aria-label="Dual portal overview">
-          <div class="portal-card">
-            <span class="portal-icon" aria-hidden="true">👤</span>
-            <h3>Citizen Portal</h3>
-            <p>Submit complaints in Tamil</p>
-          </div>
-          <div class="portal-divider" aria-hidden="true">↔</div>
-          <div class="portal-card">
-            <span class="portal-icon" aria-hidden="true">🏛️</span>
-            <h3>Official Dashboard</h3>
-            <p>Route &amp; resolve in English</p>
-          </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Bridging Language Barriers in Civic Governance</h1>
+            <p class="subtitle">A dual-portal AI system bridging Tamil citizen complaints and English government workflows via zero-shot classification.</p>
+            <div class="cta-group">
+                <a href="#demo" class="btn-primary">Live Demo</a>
+                <a href="https://github.com/Dharun4264/Civix-Router" class="btn-secondary">View Repository</a>
+            </div>
         </div>
-      </div>
+        
+        <div class="hero-visual" id="demo">
+            <div class="glass-card demo-card" style="text-align: left;">
+                <div class="card-header">Citizen Portal & Registration</div>
+                
+                <div style="margin-bottom: 1rem; display: flex; gap: 0.5rem;">
+                    <input type="text" id="citizenName" placeholder="Your Name" style="flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-family: inherit; font-size: 0.9rem; outline: none;">
+                    <input type="tel" id="citizenPhone" placeholder="10-digit Phone" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" style="flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-family: inherit; font-size: 0.9rem; outline: none;">
+                </div>
+
+                <div style="margin-bottom: 1rem; position: relative; display: flex; gap: 0.5rem;">
+                    <input type="text" id="complaintInput" placeholder="உதாரணம்: தெரு விளக்கு எரியவில்லை..." style="flex-grow: 1; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-family: inherit; font-size: 1rem; outline: none;">
+                    <button onclick="startVoiceRecognition()" id="micBtn" style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 1rem; cursor: pointer; color: var(--accent-amber); transition: all 0.3s;" title="Speak in Tamil">🎙️</button>
+                </div>
+                
+                <button onclick="analyzeAndSubmit()" id="submitBtn" style="background: var(--accent-blue); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; width: 100%;">Submit to Database</button>
+                
+                <div id="demoResult" style="margin-top: 1.5rem; display: none; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Translated English Context:</p>
+                    <p id="translatedText" style="color: var(--accent-amber); font-weight: 500; margin-bottom: 1rem;"></p>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Assigned Department:</p>
+                    <p id="routedDept" style="color: #34C759; font-weight: 500; font-size: 1.1rem;"></p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="workflow" class="section">
+        <h2 class="section-title">Seamless Workflow</h2>
+        <div class="flow-grid">
+            <div class="flow-step">
+                <div class="step-num">01</div>
+                <h3>Submit</h3>
+                <p>Citizens lodge issues natively in Tamil.</p>
+            </div>
+            <div class="flow-step">
+                <div class="step-num">02</div>
+                <h3>Translate</h3>
+                <p>Deep-Translator converts text to English instantly.</p>
+            </div>
+            <div class="flow-step">
+                <div class="step-num">03</div>
+                <h3>Classify</h3>
+                <p>Zero-shot analysis via facebook/bart-large-mnli.</p>
+            </div>
+            <div class="flow-step">
+                <div class="step-num">04</div>
+                <h3>Route</h3>
+                <p>Automated dispatch to the correct department.</p>
+            </div>
+        </div>
     </section>
 
-    <section id="problem" class="section problem" aria-labelledby="problem-heading">
-      <div class="container">
-        <h2 id="problem-heading">The Language Barrier Crisis</h2>
-        <p class="section-lead">Citizens submit complaints in Tamil. Government systems operate in English. Result: Massive delays and misallocated resources.</p>
-        <div class="comparison">
-          <article class="comparison-card comparison-citizen card">
-            <h3>Citizen Side</h3>
-            <p class="comparison-lang">தமிழ்</p>
-            <blockquote>தெரு விளக்கு எரியவில்லை. மின் கம்பி சேதமடைந்துள்ளது.</blockquote>
-            <ul>
-              <li>Local language input</li>
-              <li>No structured routing</li>
-              <li>Long wait times</li>
-            </ul>
-          </article>
-          <div class="comparison-arrow" aria-hidden="true">
-            <span class="comparison-x">✕</span>
-            <p>Miscommunication</p>
-          </div>
-          <article class="comparison-card comparison-gov card">
-            <h3>Government Side</h3>
-            <p class="comparison-lang">English</p>
-            <blockquote>Ticket logged without department context. Manual triage required.</blockquote>
-            <ul>
-              <li>English-only systems</li>
-              <li>Wrong department assignment</li>
-              <li>Resource misallocation</li>
-            </ul>
-          </article>
+    <section id="routing" class="section bg-card">
+        <h2 class="section-title">Intelligent Routing Logic</h2>
+        <div class="routing-grid">
+            <div class="route-card">
+                <span class="keyword">water / pipe / leak</span>
+                <span class="arrow">→</span>
+                <span class="dept">Water Supply Dept</span>
+            </div>
+            <div class="route-card">
+                <span class="keyword">light / electricity</span>
+                <span class="arrow">→</span>
+                <span class="dept">Electricity Board</span>
+            </div>
+            <div class="route-card">
+                <span class="keyword">road / pothole / damage</span>
+                <span class="arrow">→</span>
+                <span class="dept">Public Works Dept</span>
+            </div>
+            <div class="route-card">
+                <span class="keyword">all other terms</span>
+                <span class="arrow">→</span>
+                <span class="dept">General Admin</span>
+            </div>
         </div>
-      </div>
     </section>
 
-    <section id="solution" class="section solution" aria-labelledby="solution-heading">
-      <div class="container">
-        <h2 id="solution-heading">How Civix-Router Works</h2>
-        <p class="section-lead">A four-step pipeline from Tamil complaint to English department queue.</p>
-        <ol class="process-steps">
-          <li class="process-card card">
-            <span class="process-icon" aria-hidden="true">👤</span>
-            <span class="process-num">01</span>
-            <h3>Citizen Portal</h3>
-            <p>Submit complaints in Tamil via voice or text.</p>
-          </li>
-          <li class="process-card card">
-            <span class="process-icon" aria-hidden="true">🌐</span>
-            <span class="process-num">02</span>
-            <h3>Real-Time Translation</h3>
-            <p>Tamil → English using Deep-Translator / Google.</p>
-          </li>
-          <li class="process-card card">
-            <span class="process-icon" aria-hidden="true">🤖</span>
-            <span class="process-num">03</span>
-            <h3>Zero-Shot AI Classification</h3>
-            <p>facebook/bart-large-mnli model categorizes intent.</p>
-          </li>
-          <li class="process-card card">
-            <span class="process-icon" aria-hidden="true">🏛️</span>
-            <span class="process-num">04</span>
-            <h3>Official Dashboard</h3>
-            <p>Auto-route to the correct department instantly.</p>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-    <section id="features" class="section features" aria-labelledby="features-heading">
-      <div class="container">
-        <h2 id="features-heading">Platform Features</h2>
-        <div class="features-grid">
-          <article class="feature-card card">
-            <span class="feature-icon" aria-hidden="true">🔄</span>
-            <h3>Dual Portal Interface</h3>
-            <p>Separate experiences for citizens and officials.</p>
-          </article>
-          <article class="feature-card card">
-            <span class="feature-icon" aria-hidden="true">🔤</span>
-            <h3>Tamil → English Translation</h3>
-            <p>Real-time translation before routing.</p>
-          </article>
-          <article class="feature-card card">
-            <span class="feature-icon" aria-hidden="true">🧠</span>
-            <h3>Zero-Shot NLP Classification</h3>
-            <p>No training data required per department.</p>
-          </article>
-          <article class="feature-card card">
-            <span class="feature-icon" aria-hidden="true">📍</span>
-            <h3>Automatic Department Routing</h3>
-            <p>Keyword + AI confidence scoring.</p>
-          </article>
-          <article class="feature-card card">
-            <span class="feature-icon" aria-hidden="true">📊</span>
-            <h3>Real-Time Analytics Dashboard</h3>
-            <p>Live complaint volume and status tracking.</p>
-          </article>
-          <article class="feature-card card">
-            <span class="feature-icon" aria-hidden="true">📈</span>
-            <h3>Department-wise Bar Charts</h3>
-            <p>Visual breakdown by civic department.</p>
-          </article>
+    <section id="analytics" class="section">
+        <h2 class="section-title">Official Dashboard Metrics</h2>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h3>Total Complaints</h3>
+                <div class="counter" data-target="1284">0</div>
+            </div>
+            <div class="metric-card">
+                <h3>Resolved Issues</h3>
+                <div class="counter" data-target="942">0</div>
+            </div>
+            <div class="metric-card">
+                <h3>Pending Actions</h3>
+                <div class="counter" data-target="342">0</div>
+            </div>
         </div>
-      </div>
     </section>
 
-    <section id="tech" class="section tech" aria-labelledby="tech-heading">
-      <div class="container">
-        <h2 id="tech-heading">Tech Stack</h2>
-        <div class="tech-grid">
-          <div class="tech-badge card">
-            <span class="tech-icon" aria-hidden="true">⚡</span>
+    <section id="tech-stack" class="section bg-card">
+        <h2 class="section-title">Built With</h2>
+        <div class="stack-list">
             <span>Streamlit</span>
-            <small>Frontend</small>
-          </div>
-          <div class="tech-badge card">
-            <span class="tech-icon" aria-hidden="true">🤗</span>
-            <span>Hugging Face Transformers</span>
-            <small>AI / ML</small>
-          </div>
-          <div class="tech-badge card">
-            <span class="tech-icon" aria-hidden="true">🔥</span>
+            <span>Hugging Face</span>
             <span>PyTorch</span>
-            <small>Deep Learning</small>
-          </div>
-          <div class="tech-badge card">
-            <span class="tech-icon" aria-hidden="true">🌍</span>
             <span>Deep-Translator</span>
-            <small>Translation API</small>
-          </div>
-          <div class="tech-badge card">
-            <span class="tech-icon" aria-hidden="true">🐼</span>
             <span>Pandas</span>
-            <small>Data Processing</small>
-          </div>
-          <div class="tech-badge card tech-python">
-            <span class="tech-icon" aria-hidden="true">🐍</span>
-            <span>Python</span>
-            <small>100%</small>
-          </div>
+            <span>Python 100%</span>
         </div>
-      </div>
     </section>
 
-    <section id="routing" class="section routing" aria-labelledby="routing-heading">
-      <div class="container">
-        <h2 id="routing-heading">Smart Department Routing</h2>
-        <p class="section-lead">Keyword matching routes complaints to the right department. Unmatched cases go to General Administration.</p>
-        <div class="routing-table-wrap">
-          <table class="routing-table">
-            <caption class="visually-hidden">Department routing keywords</caption>
-            <thead>
-              <tr>
-                <th scope="col">Keywords</th>
-                <th scope="col">Department</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>water, pipe, leak, drinking</td>
-                <td>Water Supply</td>
-              </tr>
-              <tr>
-                <td>light, electricity, power, wire</td>
-                <td>Electricity Board</td>
-              </tr>
-              <tr>
-                <td>road, pothole, street, damage</td>
-                <td>Public Works</td>
-              </tr>
-              <tr>
-                <td>others</td>
-                <td>General Administration</td>
-              </tr>
-            </tbody>
-          </table>
+    <footer class="footer">
+        <div class="creator-info">
+            <p>Created by <span>K Dharun</span> | Educator | Chennai, Tamil Nadu, India</p>
+            <p><a href="mailto:dharun4264@gmail.com">dharun4264@gmail.com</a></p>
+            <p class="repo-meta">Prototype built April 3, 2026</p>
         </div>
-      </div>
-    </section>
+    </footer>
 
-    <section id="analytics" class="section analytics" aria-labelledby="analytics-heading">
-      <div class="container">
-        <h2 id="analytics-heading">Real-Time City Analytics</h2>
-        <div class="stats-row">
-          <div class="stat-card card">
-            <p class="stat-label">Total Complaints Today</p>
-            <p class="stat-value" data-target="140" data-suffix="">0</p>
-          </div>
-          <div class="stat-card card">
-            <p class="stat-label">Resolved Issues</p>
-            <p class="stat-value" data-target="87" data-suffix="">0</p>
-          </div>
-          <div class="stat-card card">
-            <p class="stat-label">Pending Actions</p>
-            <p class="stat-value" data-target="53" data-suffix="">0</p>
-          </div>
-        </div>
-        <div class="chart-wrap card">
-          <canvas id="dept-chart" role="img" aria-label="Bar chart of complaints by department"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <section id="github" class="section github-section" aria-labelledby="github-heading">
-      <div class="container">
-        <h2 id="github-heading">Explore the Code</h2>
-        <div class="github-card card">
-          <div class="github-meta">
-            <p><strong>Repository:</strong> <a href="https://github.com/Dharun4264/Civix-Router" target="_blank" rel="noopener noreferrer">github.com/Dharun4264/Civix-Router</a></p>
-            <ul class="github-stats">
-              <li><span>Language</span> Python</li>
-              <li><span>Created</span> March 29, 2026</li>
-              <li><span>Commits</span> 4</li>
-            </ul>
-          </div>
-          <div class="github-actions">
-            <a href="https://github.com/Dharun4264/Civix-Router" class="btn btn-primary" target="_blank" rel="noopener noreferrer">View on GitHub</a>
-            <a href="https://github.com/Dharun4264/Civix-Router/issues/new" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Report Issue</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="about" class="section about" aria-labelledby="about-heading">
-      <div class="container">
-        <h2 id="about-heading">About the Creator</h2>
-        <div class="about-card card">
-          <img src="assets/images/creator-placeholder.svg" alt="K Dharun profile placeholder" class="about-photo" width="120" height="120" loading="lazy">
-          <div class="about-info">
-            <h3>K Dharun</h3>
-            <p class="about-role">Educator</p>
-            <p class="about-location">Chennai, Tamil Nadu, India</p>
-            <ul class="about-links">
-              <li><a href="mailto:dharun4264@gmail.com">dharun4264@gmail.com</a></li>
-              <li><a href="https://github.com/Dharun4264" target="_blank" rel="noopener noreferrer">@Dharun4264</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer" role="contentinfo">
-    <div class="container footer-inner">
-      <p class="footer-copy">© 2026 Civix-Router. Built for April 3rd Hackathon.</p>
-      <nav class="footer-links" aria-label="Footer">
-        <a href="https://github.com/Dharun4264/Civix-Router" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        </a>
-        <a href="mailto:dharun4264@gmail.com" aria-label="Email">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-        </a>
-        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="footer-link-placeholder">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 114.127 0 2.061 2.061 0 01-2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-      </nav>
-    </div>
-  </footer>
+    <script src="js/main.js"></script>
 </body>
 </html>
